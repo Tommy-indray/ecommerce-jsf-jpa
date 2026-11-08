@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                template="/templates/layout.xhtml">
+
+  <ui:define name="title">Administration - E-Shop</ui:define>
+
+  <ui:define name="content">
+    <h1>Administration de la vitrine</h1>
+
+    <h2>Ajouter un produit</h2>
+    <h:form styleClass="form">
+      <h:outputLabel for="ref" value="Reference"/>
+      <h:inputText id="ref" value="#{vitrineBean.nouveau.reference}" required="true"
+                   requiredMessage="Reference obligatoire"/>
+      <h:message for="ref" styleClass="msg error"/>
+
+      <h:outputLabel for="nom" value="Nom"/>
+      <h:inputText id="nom" value="#{vitrineBean.nouveau.nom}" required="true"
+                   requiredMessage="Nom obligatoire"/>
+      <h:message for="nom" styleClass="msg error"/>
+
+      <h:outputLabel for="desc" value="Description"/>
+      <h:inputTextarea id="desc" value="#{vitrineBean.nouveau.description}" rows="3"/>
+
+      <h:outputLabel for="prix" value="Prix (MAD, ex : 199.90)"/>
+      <h:inputText id="prix" value="#{vitrineBean.nouveau.prix}" required="true"
+                   requiredMessage="Prix obligatoire" converterMessage="Prix invalide"/>
+      <h:message for="prix" styleClass="msg error"/>
+
+      <h:outputLabel for="stock" value="Stock"/>
+      <h:inputText id="stock" value="#{vitrineBean.nouveau.stock}" required="true"
+                   requiredMessage="Stock obligatoire" converterMessage="Stock invalide"/>
+      <h:message for="stock" styleClass="msg error"/>
+
+      <h:outputLabel for="vit" value="Vitrine"/>
+      <h:selectOneMenu id="vit" value="#{vitrineBean.formVitrineId}" required="true"
+                       requiredMessage="Choisissez une vitrine">
+        <f:selectItem itemLabel="-- choisir --" noSelectionOption="true"/>
+        <f:selectItems value="#{vitrineBean.vitrines}" var="v" itemValue="#{v.id}" itemLabel="#{v.nom}"/>
+      </h:selectOneMenu>
+      <h:message for="vit" styleClass="msg error"/>
+
+      <h:outputLabel for="cat" value="Categorie"/>
+      <h:selectOneMenu id="cat" value="#{vitrineBean.formCategorieId}" required="true"
+                       requiredMessage="Choisissez une categorie">
+        <f:selectItem itemLabel="-- choisir --" noSelectionOption="true"/>
+        <f:selectItems value="#{vitrineBean.categories}" var="c" itemValue="#{c.id}" itemLabel="#{c.nom}"/>
+      </h:selectOneMenu>
+      <h:message for="cat" styleClass="msg error"/>
+
+      <h:commandButton value="Ajouter" action="#{vitrineBean.ajouterProduit}" styleClass="btn"/>
+    </h:form>
+
+    <h2>Produits existants</h2>
+    <h:form>
+      <h:dataTable value="#{vitrineBean.produits}" var="p" styleClass="table" headerClass="th">
+        <h:column><f:facet name="header">Ref.</f:facet>#{p.reference}</h:column>
+        <h:column><f:facet name="header">Nom</f:facet>#{p.nom}</h:column>
+        <h:column><f:facet name="header">Categorie</f:facet>#{p.categorie.nom}</h:column>
+        <h:column>
+          <f:facet name="header">Prix</f:facet>
+          <h:outputText value="#{p.prix}"><f:convertNumber pattern="#,##0.00"/></h:outputText> MAD
+        </h:column>
+        <h:column><f:facet name="header">Stock</f:facet>#{p.stock}</h:column>
+        <h:column>
+          <h:commandButton value="Supprimer" action="#{vitrineBean.supprimerProduit(p.id)}"
+                           styleClass="btn small danger"
+                           onclick="return confirm('Supprimer ce produit ?');"/>
+        </h:column>
+      </h:dataTable>
+    </h:form>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,75 @@
+@startuml
+' Etape 1 - Diagramme de classes : panier, vitrine, internaute (+ commande)
+skinparam classAttributeIconSize 0
+
+class Internaute {
+  - id : Long
+  - nom : String
+  - prenom : String
+  - email : String
+  - motDePasse : String
+  - adresse : String
+  - profil : Role
+  - dateInscription : Date
+}
+class Panier {
+  - id : Long
+  - dateCreation : Date
+  + getTotal() : BigDecimal
+  + getNombreArticles() : int
+}
+class LignePanier {
+  - id : Long
+  - quantite : int
+  + getSousTotal() : BigDecimal
+}
+class Vitrine {
+  - id : Long
+  - nom : String
+  - description : String
+}
+class Categorie {
+  - id : Long
+  - nom : String
+  - description : String
+}
+class Produit {
+  - id : Long
+  - reference : String
+  - nom : String
+  - description : String
+  - prix : BigDecimal
+  - stock : int
+}
+class Commande {
+  - id : Long
+  - dateCommande : Date
+  - statut : StatutCommande
+  - montantTotal : BigDecimal
+}
+class LigneCommande {
+  - id : Long
+  - quantite : int
+  - prixUnitaire : BigDecimal
+}
+enum Role {
+  CLIENT
+  ADMIN
+}
+enum StatutCommande {
+  EN_ATTENTE
+  VALIDEE
+  EXPEDIEE
+  LIVREE
+  ANNULEE
+}
+
+Internaute "1" -- "0..1" Panier : possede
+Panier "1" *-- "0..*" LignePanier : contient
+LignePanier "0..*" -- "1" Produit : concerne
+Vitrine "0..1" o-- "0..*" Produit : presente
+Categorie "0..1" -- "0..*" Produit : classe
+Internaute "1" -- "0..*" Commande : passe
+Commande "1" *-- "0..*" LigneCommande
+LigneCommande "0..*" -- "1" Produit
+@enduml

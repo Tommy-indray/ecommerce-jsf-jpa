@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                                  http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+
+  <application>
+    <locale-config>
+      <default-locale>fr</default-locale>
+    </locale-config>
+  </application>
+
+  <factory>
+    <exception-handler-factory>
+      com.ecommerce.util.ViewExpiredExceptionHandlerFactory
+    </exception-handler-factory>
+  </factory>
+
+  <!-- Facade metier partagee (portee application), injectee via @ManagedProperty -->
+  <managed-bean>
+    <managed-bean-name>shopService</managed-bean-name>
+    <managed-bean-class>com.ecommerce.service.ShopService</managed-bean-class>
+    <managed-bean-scope>application</managed-bean-scope>
+  </managed-bean>
+</faces-config>

@@ -1,0 +1,21 @@
+# Build Maven
+target/
+*.class
+
+# IDE IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Logs
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Fichiers temporaires
+*.tmp
+*.bak

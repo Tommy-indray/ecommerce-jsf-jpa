@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+  <persistence-unit name="ecommercePU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+    <!-- Hors serveur JEE complet, les entites sont declarees explicitement -->
+    <class>com.ecommerce.model.Categorie</class>
+    <class>com.ecommerce.model.Vitrine</class>
+    <class>com.ecommerce.model.Produit</class>
+    <class>com.ecommerce.model.Internaute</class>
+    <class>com.ecommerce.model.Panier</class>
+    <class>com.ecommerce.model.LignePanier</class>
+    <class>com.ecommerce.model.Commande</class>
+    <class>com.ecommerce.model.LigneCommande</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+    <!-- Pas de cache partage : evite les donnees obsoletes entre EntityManagers -->
+    <shared-cache-mode>NONE</shared-cache-mode>
+
+    <properties>
+      <!-- Connexion MySQL : adapter l'utilisateur / mot de passe -->
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.url"
+                value="jdbc:mysql://localhost:3306/ecommerce_db?createDatabaseIfNotExist=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+
+      <!-- Generation du schema (tables) directement dans MySQL -->
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+
+      <property name="eclipselink.weaving" value="false"/>
+      <property name="eclipselink.logging.level" value="INFO"/>
+      <property name="eclipselink.logging.level.sql" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>
